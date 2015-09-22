@@ -1,0 +1,33 @@
+1st > 100%
+
+using System;
+// you can also use other imports, for example:
+// using System.Collections.Generic;
+
+// you can write to stdout for debugging purposes, e.g.
+// Console.WriteLine("this is a debug message");
+
+class Solution {
+    public int solution(int X, int Y, int D) {
+        int result = 0;
+        int dist = Y - X;
+        
+        if (dist == 0)
+        {
+            return result;
+        }
+        else
+        {
+            if(dist % D > 0)
+            {
+                result = dist / D + 1;
+            }
+            else
+            {
+                result = dist / D;
+            }
+        }
+        
+        return result;
+    }
+}

@@ -1,0 +1,78 @@
+2nd > 100%
+
+using System;
+using System.Linq;
+// you can also use other imports, for example:
+// using System.Collections.Generic;
+
+// you can write to stdout for debugging purposes, e.g.
+// Console.WriteLine("this is a debug message");
+
+class Solution {
+    public int solution(int[] A) {
+        int result = 0;
+        int N = A.Length;
+        long sum = A.Sum();
+        
+        long firstPartSum = 0;
+        long secondPartSum = 0;
+        long diff = long.MaxValue;
+        
+        for (int i = 0; i < N - 1; i++)
+        {
+            firstPartSum += (long)A[i];
+            secondPartSum = sum - firstPartSum;
+
+            long diffTemp = Math.Abs(firstPartSum - secondPartSum);
+
+            if (diffTemp < diff)
+            {
+                diff = diffTemp;
+            }
+        }
+        
+        result = (int)diff;
+        
+        return result;
+    }
+}
+
+
+1st > 83%, wrong answer on [-1000, 1000] got 0 expected 2000, error in "i < N" should be "i < N - 1" because 0 < P < N
+
+using System;
+using System.Linq;
+// you can also use other imports, for example:
+// using System.Collections.Generic;
+
+// you can write to stdout for debugging purposes, e.g.
+// Console.WriteLine("this is a debug message");
+
+class Solution {
+    public int solution(int[] A) {
+        int result = 0;
+        int N = A.Length;
+        long sum = A.Sum();
+        
+        long firstPartSum = 0;
+        long secondPartSum = 0;
+        long diff = long.MaxValue;
+        
+        for (int i = 0; i < N; i++)
+        {
+            firstPartSum += (long)A[i];
+            secondPartSum = sum - firstPartSum;
+
+            long diffTemp = Math.Abs(firstPartSum - secondPartSum);
+            
+            if (diffTemp < diff)
+            {
+                diff = diffTemp;
+            }
+        }
+        
+        result = (int)diff;
+        
+        return result;
+    }
+}

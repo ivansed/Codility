@@ -1,0 +1,126 @@
+3rd > 100%, added special cases for missing elements (N == 0), missing first element or missing last element
+
+using System;
+using System.Linq;
+// you can also use other imports, for example:
+// using System.Collections.Generic;
+
+// you can write to stdout for debugging purposes, e.g.
+// Console.WriteLine("this is a debug message");
+
+class Solution {
+    public int solution(int[] A) {
+        int result = 0;
+        int N = A.Length;
+        
+        if (N == 0)
+        {
+	    //special case when missing elements
+            result = 1;
+            return result;
+        }
+        else
+        {
+            Array.Sort(A);
+            
+            if(A[0] != 1)
+            {
+                //special case when missing first element
+                result = 1;
+                return result;
+            }
+            
+            for(int i = 0; i < N - 1; i++)
+            {
+                if(A[i + 1] - A[i] != 1)
+                {
+                    result = A[i] + 1;
+                }
+            }
+            
+            if (result == 0)
+            {
+                //special case for missing last element
+                result = N + 1;
+                return result;
+            }            
+        }
+        
+        return result;
+    }
+}
+
+
+2nd > 60%, wrong answer on [2] got 2 expected 1, also on missing first or last
+
+using System;
+using System.Linq;
+// you can also use other imports, for example:
+// using System.Collections.Generic;
+
+// you can write to stdout for debugging purposes, e.g.
+// Console.WriteLine("this is a debug message");
+
+class Solution {
+    public int solution(int[] A) {
+        int result = 0;
+        int N = A.Length;
+        
+        if (N < 2)
+        {
+            result = N + 1;
+            return result;
+        }
+        else
+        {
+            Array.Sort(A);
+            
+            for(int i = 0; i < N - 1; i++)
+            {
+                if(A[i + 1] - A[i] != 1)
+                {
+                    result = A[i] + 1;
+                }
+            }
+        }
+        
+        return result;
+    }
+}
+
+
+1st > 50%, wrong answer on [] got 0 expected 1, also on single element, expected 2, error in N == 0 should be N < 2, result = N + 1
+
+using System;
+using System.Linq;
+// you can also use other imports, for example:
+// using System.Collections.Generic;
+
+// you can write to stdout for debugging purposes, e.g.
+// Console.WriteLine("this is a debug message");
+
+class Solution {
+    public int solution(int[] A) {
+        int result = 0;
+        int N = A.Length;
+        
+        if (N == 0)
+        {
+            return result;
+        }
+        else
+        {
+            Array.Sort(A);
+            
+            for(int i = 0; i < N - 1; i++)
+            {
+                if(A[i + 1] - A[i] != 1)
+                {
+                    result = A[i] + 1;
+                }
+            }
+        }
+        
+        return result;
+    }
+}
