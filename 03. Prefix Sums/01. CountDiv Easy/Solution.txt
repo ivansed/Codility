@@ -1,0 +1,82 @@
+3rd > 100%, couldn't figure it out as I suck at math so I found the answer at "http://csharplabtests.blogspot.com/2015/06/codility-lesson-3-divcount.html"
+
+using System;
+// you can also use other imports, for example:
+// using System.Collections.Generic;
+
+// you can write to stdout for debugging purposes, e.g.
+// Console.WriteLine("this is a debug message");
+
+class Solution {
+    public int solution(int A, int B, int K) {
+        int result = 0;
+
+        if (A%K == 0) {
+          result = ((B-A)/K)+1;
+        } else {
+          result = (B/K - ((A/K)+1))+1;
+        }
+
+        return result;
+    }
+}
+
+
+2nd > 50%, changed "B - A > 0" to "B - A >= 0" and moved "+ 1" out of formula, error with input [1, 1, 11], got 1 expected 0
+
+using System;
+// you can also use other imports, for example:
+// using System.Collections.Generic;
+
+// you can write to stdout for debugging purposes, e.g.
+// Console.WriteLine("this is a debug message");
+
+class Solution {
+    public int solution(int A, int B, int K) {
+        int result = 0;
+        
+        if (B - A >= 0)
+        {
+            if (((B - A) + 1) % K > 0)
+            {
+                result = (((B - A) + 1) / K) + 1;
+            }
+            else
+            {
+                result = ((B - A) + 1) / K;
+            }
+        }        
+
+        return result;
+    }
+}
+
+
+1st > 25%
+
+using System;
+// you can also use other imports, for example:
+// using System.Collections.Generic;
+
+// you can write to stdout for debugging purposes, e.g.
+// Console.WriteLine("this is a debug message");
+
+class Solution {
+    public int solution(int A, int B, int K) {
+        int result = 0;
+        
+        if (B - A > 0)
+        {
+            if (((B - A) + 1) % K > 0)
+            {
+                result = ((B - A) + 1 + 1) / K;
+            }
+            else
+            {
+                result = ((B - A) + 1) / K;
+            }
+        }        
+
+        return result;
+    }
+}

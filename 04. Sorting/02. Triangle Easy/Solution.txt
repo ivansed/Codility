@@ -1,0 +1,42 @@
+1st > 100%
+
+using System;
+using System.Linq;
+// you can also use other imports, for example:
+// using System.Collections.Generic;
+
+// you can write to stdout for debugging purposes, e.g.
+// Console.WriteLine("this is a debug message");
+
+class Solution {
+    public int solution(int[] A) {
+        int triangles = 0;
+        int N = A.Length;
+        
+        if (N >= 3)
+        {
+            A = (from i in A orderby i descending select i).ToArray();
+            
+            for(int i = 0; i < N - 2; i++)
+            {
+                long P = A[i];
+                long Q = A[i+1];
+                long R = A[i+2];
+                
+                if(P + Q > R)
+                {
+                    if(Q + R > P)
+                    {
+                        if(R + P > Q)
+                        {
+                            triangles = 1;
+			    break;
+                        }
+                    }
+                }
+            }
+        }
+        
+        return triangles;
+    }
+}

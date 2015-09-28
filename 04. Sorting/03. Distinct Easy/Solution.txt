@@ -1,0 +1,23 @@
+1st > 100%
+
+using System;
+using System.Linq;
+// you can also use other imports, for example:
+// using System.Collections.Generic;
+
+// you can write to stdout for debugging purposes, e.g.
+// Console.WriteLine("this is a debug message");
+
+class Solution {
+    public int solution(int[] A) {
+        int result = 0;
+        int N = A.Length;
+        
+        if(N > 0)
+        {
+            result = (from i in A select i).Distinct().Count();
+        }
+        
+        return result;
+    }
+}

@@ -1,0 +1,38 @@
+1st > 100%
+
+using System;
+// you can also use other imports, for example:
+// using System.Collections.Generic;
+
+// you can write to stdout for debugging purposes, e.g.
+// Console.WriteLine("this is a debug message");
+
+class Solution {
+    public int solution(int[] A) {
+        int result = 0;
+        int N = A.Length;
+        int east = 0;
+        int west = 1;
+        long eastCars = 0;
+        
+        for (int i = 0; i < N; i++)
+        {
+            if (A[i] == east)
+            {
+                eastCars++;
+            }
+            else if(A[i] == west)
+            {
+                result += (int)eastCars;
+            }
+            
+            if (result > 1000000000)
+            {
+                result = -1;
+                break;
+            }
+        }
+        
+        return result;
+    }
+}

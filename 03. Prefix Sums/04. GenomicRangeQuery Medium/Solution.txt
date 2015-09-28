@@ -1,0 +1,156 @@
+2nd > 100%, issue was that when calculating prefix sums there must be continuity, can't have 0, 1, 0 but instead must be 0, 1, 1 even when there is nothing to add at that moment we must preserve previous value
+
+using System;
+// you can also use other imports, for example:
+// using System.Collections.Generic;
+
+// you can write to stdout for debugging purposes, e.g.
+// Console.WriteLine("this is a debug message");
+
+class Solution {
+    public int[] solution(string S, int[] P, int[] Q) {
+        const int A = 1;
+        const int C = 2;
+        const int G = 3;
+        const int T = 4;
+        int N = S.Length;
+        int M = P.Length;
+        
+        int[] sumsA = new int[N + 1];
+        int[] sumsC = new int[N + 1];
+        int[] sumsG = new int[N + 1];
+        int[] sumsT = new int[N + 1];
+        
+        int[] minImpact = new int[M];
+        
+        //calculate prefix sums for all nucleotides
+        for(int i = 1; i < N + 1; i++)
+        {
+            int a = 0;
+            int c = 0;
+            int g = 0;
+            int t = 0;
+            
+            switch(S[i-1])
+            {
+                case 'A':
+                    a = A;
+                    break;
+                case 'C':
+                    c = C;
+                    break;
+                case 'G':
+                    g = G;
+                    break;
+                case 'T':
+                    t = T;
+                    break;                    
+            }
+            
+            sumsA[i] = sumsA[i-1] + a;
+            sumsC[i] = sumsC[i-1] + c;
+            sumsG[i] = sumsG[i-1] + g;
+            sumsT[i] = sumsT[i-1] + t;
+        }
+        
+        //find the minimal impact factor, starting from A to T
+        for(int i = 0; i < M; i++)
+        {
+            int start = P[i];
+            int end = Q[i] + 1;
+            
+            if(sumsA[end] - sumsA[start] > 0)
+            {
+                minImpact[i] = A;
+            }
+            else if(sumsC[end] - sumsC[start] > 0)
+            {
+                minImpact[i] = C;
+            }
+            else if(sumsG[end] - sumsG[start] > 0)
+            {
+                minImpact[i] = G;
+            }
+            else if(sumsT[end] - sumsT[start] > 0)
+            {
+                minImpact[i] = T;
+            }            
+        }
+        
+        return minImpact;
+    }
+}
+
+
+1st > 12%, error with input ('AC', [0, 0, 1], [0, 1, 1]), got [1, 2, 2], expected [1, 1, 2]
+
+using System;
+// you can also use other imports, for example:
+// using System.Collections.Generic;
+
+// you can write to stdout for debugging purposes, e.g.
+// Console.WriteLine("this is a debug message");
+
+class Solution {
+    public int[] solution(string S, int[] P, int[] Q) {
+        int A = 1;
+        int C = 2;
+        int G = 3;
+        int T = 4;
+        int N = S.Length;
+        int M = P.Length;
+        
+        int[] sumsA = new int[N + 1];
+        int[] sumsC = new int[N + 1];
+        int[] sumsG = new int[N + 1];
+        int[] sumsT = new int[N + 1];
+        
+        int[] minImpact = new int[M];
+        
+        //calculate prefix sums for all nucleotides
+        for(int i = 1; i < N + 1; i++)
+        {
+            switch(S[i-1])
+            {
+                case 'A':
+                    sumsA[i] = sumsA[i-1] + A;
+                    break;
+                case 'C':
+                    sumsC[i] = sumsC[i-1] + C;
+                    break;
+                case 'G':
+                    sumsG[i] = sumsG[i-1] + G;
+                    break;
+                case 'T':
+                    sumsT[i] = sumsT[i-1] + T;
+                    break;                    
+            }
+        }
+        
+        //find the minimal impact factor, starting from A to T
+        for(int i = 0; i < M; i++)
+        {
+            int start = P[i];
+            int end = Q[i] + 1;
+            
+            if(sumsA[end] - sumsA[start] > 0)
+            {
+                minImpact[i] = A;
+            }
+            else if(sumsC[end] - sumsC[start] > 0)
+            {
+                minImpact[i] = C;
+            }
+            else if(sumsG[end] - sumsG[start] > 0)
+            {
+                minImpact[i] = G;
+            }
+            else if(sumsT[end] - sumsT[start] > 0)
+            {
+                minImpact[i] = T;
+            }            
+        }
+        
+        return minImpact;
+    }
+}

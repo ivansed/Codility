@@ -1,0 +1,87 @@
+2nd > 100%, included check for slice that contains 3 members (needed for negative inputs) and excluded second "for" loop. All we need is to check 2 or 3 member slices because 4 member slices are actually 2 * 2 member slices, 5 member slices are 2 + 3 member slices, 6 member slices are 2 * 3 member slices or 3 * 2 member slices and so on.
+
+using System;
+// you can also use other imports, for example:
+// using System.Collections.Generic;
+
+// you can write to stdout for debugging purposes, e.g.
+// Console.WriteLine("this is a debug message");
+
+class Solution {
+    public int solution(int[] A) {
+        int result = 0;
+        int N = A.Length;
+        int M = N - 1;
+        double[] sum = new double[M];
+        double min = double.MaxValue;
+        
+        for (int i = 0; i < M; i++)
+        {
+            double twoSlice = double.MaxValue;
+            double threeSlice = double.MaxValue;
+            
+            if (i + 1 < N)
+            {
+                twoSlice = ((double)A[i] + (double)A[i+1]) / (double)2;
+            }
+            
+            if (i + 2 < N)
+            {
+                threeSlice = ((double)A[i] + (double)A[i+1] + (double)A[i+2]) / (double)3;
+            }
+            
+            if (twoSlice <= threeSlice)
+            {
+                sum[i] = twoSlice;
+            }
+            else
+            {
+                sum[i] = threeSlice;
+            }
+            
+            if(sum[i] < min)
+            {
+                min = sum[i];
+                result = i;
+            }            
+        }
+        
+        return result;
+    }
+}
+
+
+1st > 50%, error on input [-3, -5, -8, -4, -10], got 3, expected 2
+
+using System;
+// you can also use other imports, for example:
+// using System.Collections.Generic;
+
+// you can write to stdout for debugging purposes, e.g.
+// Console.WriteLine("this is a debug message");
+
+class Solution {
+    public int solution(int[] A) {
+        int result = 0;
+        int N = A.Length;
+        int M = N - 1;
+        double[] sum = new double[M];
+        double min = double.MaxValue;
+        
+        for (int i = 0; i < M; i++)
+        {
+            sum[i] = ((double)A[i] + (double)A[i+1]) / (double)2;
+        }
+        
+        for (int i = 0; i < M; i++)
+        {
+            if(sum[i] < min)
+            {
+                min = sum[i];
+                result = i;
+            }
+        }
+        
+        return result;
+    }
+}
