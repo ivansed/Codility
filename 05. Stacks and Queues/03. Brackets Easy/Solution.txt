@@ -1,0 +1,51 @@
+1st > 100%
+
+using System;
+// you can also use other imports, for example:
+using System.Collections.Generic;
+
+// you can write to stdout for debugging purposes, e.g.
+// Console.WriteLine("this is a debug message");
+
+class Solution {
+    public int solution(string S) {
+        int result = 0;
+        int N = S.Length;
+        
+        string openers = "({[";
+        string closers = ")}]";
+        
+        Stack<char> stack = new Stack<char>();
+
+        for(int i = 0; i < N; i++)
+        {
+            if (openers.IndexOf(S[i]) >= 0)
+            {
+                stack.Push(S[i]);
+            }
+            else if (closers.IndexOf(S[i]) >= 0)
+            {
+                if(stack.Count > 0 && openers.IndexOf(stack.Peek()) == closers.IndexOf(S[i]))
+                {
+                    stack.Pop();
+                }
+                else
+                {
+                    result = -1;
+                    break;
+                }
+            }
+        }
+        
+        if(stack.Count == 0 && result == 0)
+        {
+            result = 1;
+        }
+        else
+        {
+            result = 0;
+        }
+        
+        return result;        
+    }
+}

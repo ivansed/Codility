@@ -1,0 +1,277 @@
+3rd > 100%
+
+using System;
+// you can also use other imports, for example:
+// using System.Collections.Generic;
+
+// you can write to stdout for debugging purposes, e.g.
+// Console.WriteLine("this is a debug message");
+
+class Solution {
+    public int solution(int[] A) {
+        int N = A.Length;
+        int leader = 0;
+        int equiLeaderCount = 0;
+        
+        if(N > 0)
+        {
+            //find the candidate
+            int[] B = (int[])A.Clone();
+            Array.Sort(B);
+            
+            int candidate = B[N/2];
+            
+            //check if candidate is the leader
+            int count = 0;
+            for(int i = 0; i < N; i++)
+            {
+                if(B[i] == candidate)
+                {
+                    count++;
+                    
+                    if(count > N / 2)
+                    {
+                        leader = candidate;
+                        break;
+                    }
+                }
+            }
+            
+            if (leader == candidate)
+            {
+                //candidate is the leader, find equi leader indexes
+                
+                //create prefix sum array where only leaders will be summed with value 1, creating count of leaders
+                long[] leaderCount = new long[N + 1];
+                for(int i = 1; i < N + 1; i++)
+                {
+                    int value = 0;
+                    if(A[i-1] == leader)
+                    {
+                        value = 1;
+                    }
+                    else
+                    {
+                        value = 0;
+                    }
+                    leaderCount[i] = leaderCount[i-1] + value;
+                }
+                
+                //now we can calculate ranges in linear time
+                for(int S = 0; S < N - 1; S++)
+                {
+                    bool hasLeaderBefore = false;
+                    bool hasLeaderAfter = false;
+                    
+                    if(leaderCount[S + 1] > (S + 1) / 2)
+                    {
+                        hasLeaderBefore = true;
+                    }
+                    
+                    if((leaderCount[N] - leaderCount[S + 1]) > (N - S - 1) / 2)
+                    {
+                        hasLeaderAfter = true;
+                    }
+                    
+                    /*
+                    Console.WriteLine(A[S]);
+                    Console.WriteLine(hasLeaderBefore);
+                    Console.WriteLine(hasLeaderAfter);
+                    */
+                    
+                    if(hasLeaderBefore && hasLeaderAfter)
+                    {
+                        equiLeaderCount++;
+                        //Console.WriteLine(S);
+                    }
+                }
+            }
+        }
+        
+        return equiLeaderCount;
+    }
+}
+
+
+2nd > 66%, solution is correct but got 25% on performance because of complexity (N**2)
+
+using System;
+// you can also use other imports, for example:
+// using System.Collections.Generic;
+
+// you can write to stdout for debugging purposes, e.g.
+// Console.WriteLine("this is a debug message");
+
+class Solution {
+    public int solution(int[] A) {
+        int N = A.Length;
+        int leader = 0;
+        int equiLeaderCount = 0;
+        
+        if(N > 0)
+        {
+            //find the candidate
+            int[] B = (int[])A.Clone();
+            Array.Sort(B);
+            
+            int candidate = B[N/2];
+            
+            //check if candidate is the leader
+            int count = 0;
+            for(int i = 0; i < N; i++)
+            {
+                if(B[i] == candidate)
+                {
+                    count++;
+                    
+                    if(count > N / 2)
+                    {
+                        leader = candidate;
+                        break;
+                    }
+                }
+            }
+            
+            if (leader == candidate)
+            {
+                //candidate has the leader, find equi leader
+                for(int S = 0; S < N - 1; S++)
+                {
+                    bool hasLeaderBefore = false;
+                    bool hasLeaderAfter = false;
+                    
+                    int countLeaderBefore = 0;
+                    for(int j = 0; j <= S; j++)
+                    {
+                        if(A[j] == leader)
+                        {
+                            countLeaderBefore++;
+                        
+                            if(countLeaderBefore > (S + 1) / 2)
+                            {
+                                hasLeaderBefore = true;
+                                break;
+                            }
+                        }
+                    }
+                    
+                    if(hasLeaderBefore)
+                    {
+                        int countLeaderAfter = 0;
+                        for(int k = S + 1; k < N; k++)
+                        {
+                            if(A[k] == leader)
+                            {
+                                countLeaderAfter++;
+                            
+                                if(countLeaderAfter > (N - S - 1) / 2)
+                                {
+                                    hasLeaderAfter = true;
+                                    break;
+                                }
+                            }                        
+                        }
+                    }
+                    
+                    if(hasLeaderBefore && hasLeaderAfter)
+                    {
+                        equiLeaderCount++;
+                        //Console.WriteLine(S);
+                    }
+                }
+            }
+        }
+        
+        return equiLeaderCount;
+    }
+}
+
+
+1st > 33%, error for input [4, 4, 2, 5, 3, 4, 4, 4], got 5, expected 3
+
+using System;
+// you can also use other imports, for example:
+// using System.Collections.Generic;
+
+// you can write to stdout for debugging purposes, e.g.
+// Console.WriteLine("this is a debug message");
+
+class Solution {
+    public int solution(int[] A) {
+        int N = A.Length;
+        int leader = 0;
+        int equiLeaderCount = 0;
+        
+        if(N > 0)
+        {
+            //find the candidate
+            int[] B = (int[])A.Clone();
+            Array.Sort(B);
+            
+            int candidate = B[N/2];
+            
+            //check if candidate is the leader
+            int count = 0;
+            for(int i = 0; i < N; i++)
+            {
+                if(B[i] == candidate)
+                {
+                    count++;
+                    
+                    if(count > N / 2)
+                    {
+                        leader = candidate;
+                        break;
+                    }
+                }
+            }
+            
+            if (leader == candidate)
+            {
+                //candidate has the leader, find equi leader
+                for(int S = 0; S < N; S++)
+                {
+                    bool hasLeaderBefore = false;
+                    bool hasLeaderAfter = false;
+                    
+                    int countLeaderBefore = 0;
+                    for(int j = 0; j <= S; j++)
+                    {
+                        if(A[j] == leader)
+                        {
+                            countLeaderBefore++;
+                        
+                            if(countLeaderBefore > (S + 1 - j) / 2)
+                            {
+                                hasLeaderBefore = true;
+                                break;
+                            }
+                        }
+                    }
+                    
+                    int countLeaderAfter = 0;
+                    for(int k = S + 1; k < N; k++)
+                    {
+                        if(A[k] == leader)
+                        {
+                            countLeaderAfter++;
+                        
+                            if(countLeaderAfter > (N - S - 1) / 2)
+                            {
+                                hasLeaderAfter = true;
+                                break;
+                            }
+                        }                        
+                    }
+                    
+                    if(hasLeaderBefore && hasLeaderAfter)
+                    {
+                        equiLeaderCount++;
+                    }
+                }
+            }
+        }
+        
+        return equiLeaderCount;
+    }
+}

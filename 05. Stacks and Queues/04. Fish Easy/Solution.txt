@@ -1,0 +1,156 @@
+3rd > 100%, fixed the code to make it more readable and error free
+
+using System;
+// you can also use other imports, for example:
+using System.Collections.Generic;
+
+// you can write to stdout for debugging purposes, e.g.
+// Console.WriteLine("this is a debug message");
+
+class Solution {
+    public int solution(int[] A, int[] B) {
+        int N = A.Length;
+        
+        int upstream = 0;
+        int downstream = 1;
+        
+        int alive = N;
+        
+        Stack<int> flowingDownstream = new Stack<int>();
+        
+        for(int i = 0; i < N; i++)
+        {
+            if(B[i] == downstream)
+            {
+                flowingDownstream.Push(A[i]);
+            }
+            else if(B[i] == upstream)
+            {
+                while(flowingDownstream.Count > 0)
+                {
+                    if(flowingDownstream.Peek() > A[i])
+                    {
+                        alive--;
+                        break;
+                    }
+                    else
+                    {
+                        flowingDownstream.Pop();
+                        alive--;
+                    }
+                }
+            }
+        }
+        
+        return alive;
+    }
+}
+
+
+2nd > 62%, resolved previous error, still getting more alive fish than expected in some cases
+
+using System;
+// you can also use other imports, for example:
+using System.Collections.Generic;
+
+// you can write to stdout for debugging purposes, e.g.
+// Console.WriteLine("this is a debug message");
+
+class Solution {
+    public int solution(int[] A, int[] B) {
+        int N = A.Length;
+        
+        int upstream = 0;
+        int downstream = 1;
+        
+        int alive = N;
+        
+        Stack<int> flowingDownstream = new Stack<int>();
+        
+        for(int i = 0; i < N; i++)
+        {
+            if(B[i] == downstream)
+            {
+                flowingDownstream.Push(A[i]);
+            }
+            else if(B[i] == upstream)
+            {
+                if(flowingDownstream.Count > 0)
+                {
+                    if(flowingDownstream.Peek() > A[i])
+                    {
+                        alive--;
+                    }
+                    else
+                    {
+                        flowingDownstream.Pop();
+                        alive--;
+                        
+                        while(flowingDownstream.Count > 0)
+                        {
+                            if(flowingDownstream.Peek() < A[i])
+                            {
+                                flowingDownstream.Pop();
+                                alive--;
+                            }
+                            else
+                            {
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        
+        return alive;
+    }
+}
+
+
+1st > 50%, error on "all except one fish flowing in the same direction" and other
+
+using System;
+// you can also use other imports, for example:
+using System.Collections.Generic;
+
+// you can write to stdout for debugging purposes, e.g.
+// Console.WriteLine("this is a debug message");
+
+class Solution {
+    public int solution(int[] A, int[] B) {
+        int N = A.Length;
+        
+        const int upstream = 0;
+        const int downstream = 1;
+        
+        int alive = N;
+        
+        Stack<int> flowingDownstream = new Stack<int>();
+        
+        for(int i = 0; i < N; i++)
+        {
+            if(B[i] == downstream)
+            {
+                flowingDownstream.Push(A[i]);
+            }
+            else if(B[i] == upstream)
+            {
+                if(flowingDownstream.Count > 0)
+                {
+                    if(flowingDownstream.Peek() > A[i])
+                    {
+                        alive--;
+                    }
+                    else
+                    {
+                        flowingDownstream.Pop();
+                        alive--;
+                    }
+                }
+            }
+        }
+        
+        return alive;
+    }
+}

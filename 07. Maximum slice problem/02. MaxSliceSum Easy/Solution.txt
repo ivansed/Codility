@@ -1,0 +1,50 @@
+2nd > 100%, this modification of slice sum takes negatives into account
+
+using System;
+// you can also use other imports, for example:
+// using System.Collections.Generic;
+
+// you can write to stdout for debugging purposes, e.g.
+// Console.WriteLine("this is a debug message");
+
+class Solution {
+    public int solution(int[] A) {
+        int N = A.Length;
+        int maxEnding = -1000000;
+        int maxSlice = -1000000;
+        
+        for(int i = 0; i < N; i++)
+        {
+            maxEnding = Math.Max(A[i], maxEnding + A[i]);
+            maxSlice = Math.Max(maxSlice, maxEnding);
+        }
+        
+        return maxSlice;
+    }
+}
+
+
+1st > 53%, error on input [-10], got 0, expected -10
+
+using System;
+// you can also use other imports, for example:
+// using System.Collections.Generic;
+
+// you can write to stdout for debugging purposes, e.g.
+// Console.WriteLine("this is a debug message");
+
+class Solution {
+    public int solution(int[] A) {
+        int N = A.Length;
+        int maxEnding = 0;
+        int maxSlice = 0;
+        
+        for(int i = 0; i < N; i++)
+        {
+            maxEnding = Math.Max(0, maxEnding + A[i]);
+            maxSlice = Math.Max(maxSlice, maxEnding);
+        }
+        
+        return maxSlice;
+    }
+}

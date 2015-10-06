@@ -1,0 +1,81 @@
+2nd > 100%, changed int i into long i as we are doing i * i <= N
+
+using System;
+// you can also use other imports, for example:
+// using System.Collections.Generic;
+
+// you can write to stdout for debugging purposes, e.g.
+// Console.WriteLine("this is a debug message");
+
+class Solution {
+    public int solution(int N) {
+        int D = 0;
+        int M = 0;
+        int factorsCount = 0;
+
+        long i = 1;
+        while(i * i <= (long)N)
+        {
+            if(N % (int)i == 0)
+            {
+                D = N / (int)i;
+                M = (int)i;
+                
+                if (D != M)
+                {
+                    factorsCount += 2; //one for D and one for M   
+                }
+                else
+                {
+                    factorsCount += 1; //special case like 1 = 1 * 1
+                }
+            }
+            
+            i++;
+        }
+        
+        return factorsCount;
+    }
+}
+
+
+1st > 92%, got timeout for input 2147483647
+
+using System;
+// you can also use other imports, for example:
+// using System.Collections.Generic;
+
+// you can write to stdout for debugging purposes, e.g.
+// Console.WriteLine("this is a debug message");
+
+class Solution {
+    public int solution(int N) {
+        int D = 0;
+        int M = 0;
+        int factorsCount = 0;
+
+        int i = 1;
+        while(i * i <= N)
+        {
+            if(N % i == 0)
+            {
+                D = N / i;
+                M = i;
+                
+                if (D != M)
+                {
+                    factorsCount += 2; //one for D and one for M   
+                }
+                else
+                {
+                    factorsCount += 1; //special case like 1 = 1 * 1
+                }
+                
+            }
+            
+            i++;
+        }
+        
+        return factorsCount;
+    }
+}

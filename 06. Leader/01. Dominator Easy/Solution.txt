@@ -1,0 +1,79 @@
+2nd > 100%
+
+using System;
+// you can also use other imports, for example:
+// using System.Collections.Generic;
+
+// you can write to stdout for debugging purposes, e.g.
+// Console.WriteLine("this is a debug message");
+
+class Solution {
+    public int solution(int[] A) {
+        int N = A.Length;
+        int dominator = -1;
+        int candidate = 0;
+        
+        if(N > 0)
+        {
+            int[] B = (int[])A.Clone();
+            Array.Sort(B);
+            candidate = B[N/2];
+            
+            int counter = 0;
+            for(int i = 0; i < N; i++)
+            {
+                if(A[i] == candidate)
+                {
+                    counter++;
+                    
+                    if (counter > N / 2)
+                    {
+                        dominator = i;
+                    }                
+                }
+            }
+        }
+        
+        return dominator;
+    }
+}
+
+
+1st > 91%, error on input [1, 2, 1], returned index 1, should return 0 or 2. This is because I sorted the array and indexes changed.
+
+using System;
+// you can also use other imports, for example:
+// using System.Collections.Generic;
+
+// you can write to stdout for debugging purposes, e.g.
+// Console.WriteLine("this is a debug message");
+
+class Solution {
+    public int solution(int[] A) {
+        int N = A.Length;
+        int dominator = -1;
+        int candidate = 0;
+        
+        if(N > 0)
+        {
+            Array.Sort(A);
+            candidate = A[N/2];
+            
+            int counter = 0;
+            for(int i = 0; i < N; i++)
+            {
+                if(A[i] == candidate)
+                {
+                    counter++;
+                    
+                    if (counter > N / 2)
+                    {
+                        dominator = i;
+                    }                
+                }
+            }
+        }
+        
+        return dominator;
+    }
+}

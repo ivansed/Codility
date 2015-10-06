@@ -1,0 +1,271 @@
+3rd > 100%, pay attention to input [0, 1, 0, 1, 0, 0, 0, 0, 1, 0, 1, 0], it can be divided by 1, 2 and 4 but not 3, really special case
+
+using System;
+// you can also use other imports, for example:
+// using System.Collections.Generic;
+
+// you can write to stdout for debugging purposes, e.g.
+// Console.WriteLine("this is a debug message");
+
+class Solution {
+    public int solution(int[] A) {
+        int N = A.Length;
+        int[] peaks = new int[N+1];
+        int peaksCount = 0;
+        int blocksCount = 0;
+        
+        //prefix sum of peaks
+        for(int i = 3; i < N + 1; i++)
+        {
+            int value = 0;
+            int previous = A[i-3];
+            int current = A[i-2];
+            int next = A[i-1];
+
+            if(previous < current && current > next)
+            {
+                value = 1;
+                peaksCount++;
+            }
+            
+            peaks[i-1] = peaks[i-2] + value;
+            peaks[N] = peaksCount; //because current is i-2 not i-1, last element can't be the peak anyway so just put it to peak count
+        }
+        
+        /*
+        for(int i = 0; i < N + 1; i++)
+        {
+            Console.WriteLine(i.ToString() + ":" + peaks[i].ToString());
+        }
+        Console.WriteLine("pcnt:" + peaksCount.ToString());
+        */
+        
+        if(peaksCount > 0)
+        {
+            int j = 1;
+            while(j <= peaksCount) //it's not peaksCount + 1 because each block must have a peak so num of peaks == num of blocks
+            {
+                if(N % j == 0)
+                {
+                    int step = N / j;
+                    bool hasPeaksInBlock = false;
+                    
+                    /*
+                    Console.WriteLine("j:" + j.ToString());
+                    Console.WriteLine("step:" + step.ToString());
+                    */
+
+                    for(int k = 0; k < j; k++)
+                    {
+                        int peaksInBlock = peaks[((k * step) + (step - 1)) + 1] - peaks[k * step];
+                        
+                        /*
+                        Console.WriteLine("k:" + k.ToString());
+                        Console.WriteLine("pib:" + peaksInBlock.ToString());
+                        */
+                        
+                        if(peaksInBlock == 0)
+                        {
+                            //no peaks in this block, we are done counting
+                            hasPeaksInBlock = false;
+                            break;
+                        }
+                        else
+                        {
+                            hasPeaksInBlock = true;
+                        }
+                    }
+                    
+                    if(hasPeaksInBlock)
+                    {
+                        blocksCount = j; //we are dividing A to j blocks so number of blocks is equal to j
+                    }
+                }
+                j++;
+            }
+        }
+        
+        return blocksCount;
+    }
+}
+
+
+2nd > 36%, error on input [0, 1, 0, 0, 1, 0, 0, 1, 0], got 2, expected 3
+
+using System;
+// you can also use other imports, for example:
+// using System.Collections.Generic;
+
+// you can write to stdout for debugging purposes, e.g.
+// Console.WriteLine("this is a debug message");
+
+class Solution {
+    public int solution(int[] A) {
+        int N = A.Length;
+        int[] peaks = new int[N+1];
+        int peaksCount = 0;
+        int blocksCount = 0;
+        
+        //prefix sum of peaks
+        for(int i = 3; i < N + 1; i++)
+        {
+            int value = 0;
+            int previous = A[i-3];
+            int current = A[i-2];
+            int next = A[i-1];
+
+            if(previous < current && current > next)
+            {
+                value = 1;
+                peaksCount++;
+            }
+            
+            peaks[i-1] = peaks[i-2] + value;
+            peaks[N] = peaksCount; //because current is i-2 not i-1, last element can't be the peak anyway so just put it to peak count
+        }
+        
+        /*
+        for(int i = 0; i < N + 1; i++)
+        {
+            Console.WriteLine(i.ToString() + ":" + peaks[i].ToString());
+        }
+        Console.WriteLine("pcnt:" + peaksCount.ToString());
+        */
+        
+        if(peaksCount > 0)
+        {
+            int j = 1;
+            while(j <= peaksCount) //it's not peaksCount + 1 because each block must have a peak so num of peaks == num of blocks
+            {
+                if(N % j == 0)
+                {
+                    int step = N / j;
+                    bool hasPeaksInBlock = false;
+                    
+                    /*
+                    Console.WriteLine("j:" + j.ToString());
+                    Console.WriteLine("step:" + step.ToString());
+                    */
+
+                    for(int k = 0; k < j; k++)
+                    {
+                        int peaksInBlock = peaks[((k * step) + (step - 1)) + 1] - peaks[k * step];
+                        
+                        /*
+                        Console.WriteLine("k:" + k.ToString());
+                        Console.WriteLine("pib:" + peaksInBlock.ToString());
+                        */
+                        
+                        if(peaksInBlock == 0)
+                        {
+                            //no peaks in this block, we are done counting
+                            hasPeaksInBlock = false;
+                            break;
+                        }
+                        else
+                        {
+                            hasPeaksInBlock = true;
+                        }
+                    }
+                    
+                    if(hasPeaksInBlock)
+                    {
+                        blocksCount++;
+                    }
+                }
+                j++;
+            }
+        }
+        
+        return blocksCount;
+        
+    }
+}
+
+
+1st > 27%, error on input [1, 3, 2, 1], got 2, expected 1
+
+using System;
+// you can also use other imports, for example:
+// using System.Collections.Generic;
+
+// you can write to stdout for debugging purposes, e.g.
+// Console.WriteLine("this is a debug message");
+
+class Solution {
+    public int solution(int[] A) {
+        int N = A.Length;
+        int[] peaks = new int[N+1];
+        int peaksCount = 0;
+        int blocksCount = 0;
+        
+        //prefix sum of peaks
+        for(int i = 3; i < N + 1; i++)
+        {
+            int value = 0;
+            int previous = A[i-3];
+            int current = A[i-2];
+            int next = A[i-1];
+
+            if(previous < current && current > next)
+            {
+                value = 1;
+                peaksCount++;
+            }
+            
+            peaks[i-1] = peaks[i-2] + value;
+            peaks[N] = peaksCount; //because current is i-2 not i-1, last element can't be the peak anyway so just put it to peak count
+        }
+        
+        /*
+        for(int i = 0; i < N + 1; i++)
+        {
+            Console.WriteLine(i.ToString() + ":" + peaks[i].ToString());
+        }
+        Console.WriteLine("pcnt:" + peaksCount.ToString());
+        */
+        
+        if(peaksCount > 0)
+        {
+            int j = 1;
+            while(j <= peaksCount + 1)
+            {
+                if(N % j == 0)
+                {
+                    int step = N / j;
+                    int peaksInBlock = 0;
+                    
+                    /*
+                    Console.WriteLine("j:" + j.ToString());
+                    Console.WriteLine("step:" + step.ToString());
+                    */
+
+                    for(int k = 0; k < j; k++)
+                    {
+                        peaksInBlock += peaks[((k * step) + (step - 1)) + 1] - peaks[k * step];
+                        
+                        /*
+                        Console.WriteLine("k:" + k.ToString());
+                        Console.WriteLine("pib:" + peaksInBlock.ToString());
+                        */
+                        
+                        if(peaksInBlock == 0)
+                        {
+                            //no peak in this block, we are done counting
+                            break;
+                        }
+                    }
+                    
+                    if(peaksInBlock == peaksCount)
+                    {
+                        blocksCount++;
+                    }
+                }
+                j++;
+            }
+        }
+        
+        return blocksCount;
+        
+    }
+}
