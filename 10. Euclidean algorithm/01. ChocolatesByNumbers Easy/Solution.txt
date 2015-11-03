@@ -1,0 +1,63 @@
+2nd > 100%
+
+using System;
+// you can also use other imports, for example:
+// using System.Collections.Generic;
+
+// you can write to stdout for debugging purposes, e.g.
+// Console.WriteLine("this is a debug message");
+
+class Solution {
+    public int solution(int N, int M) {
+        int chocosEaten = 0;
+        int gcd = GCD(N, M);
+        
+        chocosEaten = N / gcd; //because if we divide N by greatest common divisor gcd of N, M we will get number of possible moves around the circle and that is the number of chocolates eaten
+        
+        return chocosEaten;
+    }
+    
+    public int GCD(int a, int b)
+    {
+        if(a % b == 0)
+        {
+            return b;
+        }
+        else
+        {
+            return GCD(b, a % b);
+        }
+    }
+}
+
+
+1st > 62%, solution is correct but too slow, error on input (1000000000, 1)
+
+using System;
+// you can also use other imports, for example:
+// using System.Collections.Generic;
+
+// you can write to stdout for debugging purposes, e.g.
+// Console.WriteLine("this is a debug message");
+
+class Solution {
+    public int solution(int N, int M) {
+        bool[] chocolates = new bool[N];
+        int chocosEaten = 0;
+        
+        for(int i = 0; i < N; i++)
+        {
+            chocolates[i] = true;
+        }
+        
+        int nextChoco = 0;
+        while(chocolates[nextChoco])
+        {
+            chocolates[nextChoco] = false;
+            chocosEaten++;
+            nextChoco = (nextChoco + M) % N;
+        }
+        
+        return chocosEaten;
+    }
+}

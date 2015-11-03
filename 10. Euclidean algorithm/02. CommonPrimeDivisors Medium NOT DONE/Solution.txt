@@ -1,0 +1,175 @@
+2nd > 61%, solution is correct but is timing out, detected complexity is O(Z*(max(A)+max(B))) instead of O(Z*log(max(A)+max(B))^2)
+
+using System;
+// you can also use other imports, for example:
+// using System.Collections.Generic;
+
+// you can write to stdout for debugging purposes, e.g.
+// Console.WriteLine("this is a debug message");
+
+class Solution {
+    public int solution(int[] A, int[] B) {
+        int Z = A.Length;
+        int result = 0;
+        
+        for(int k = 0; k < Z; k++)
+        {
+            int N = A[k];
+            int M = B[k];
+            
+            long NPrimeSum = 0;
+            long MPrimeSum = 0;
+            
+            //Console.WriteLine("K" + k);
+            
+            int i = 2;
+            bool? isPrime = null;
+            while(i <= Math.Max(N, M))
+            {
+                if(i <= N)
+                {
+                    if(N % i == 0)
+                    {
+                        if(isPrime == null){ isPrime = IsPrime(i); }
+                        if((bool)isPrime)
+                        {
+                            //Console.WriteLine("N" + i);
+                            NPrimeSum += i;
+                        }
+                    }
+                }
+                
+                if(i <= M)
+                {
+                    if(M % i == 0)
+                    {
+                        if(isPrime == null){ isPrime = IsPrime(i); }
+                        if((bool)isPrime)
+                        {
+                            //Console.WriteLine("M" + i);
+                            MPrimeSum += i;
+                        }
+                    }
+                }
+                
+                if(NPrimeSum != MPrimeSum)
+                {
+                    break;
+                }
+                
+                isPrime = null;
+                i++;
+            }
+            
+            if(NPrimeSum == MPrimeSum)
+            {
+                result++;
+            }
+        }
+        
+        return result;
+    }
+    
+    public bool IsPrime(int num)
+    {
+        bool result = true;
+        
+        long i = 2;
+        while(i * i <= (long)num)
+        {
+            if((long)num % i == 0)
+            {
+                result = false;
+                break;
+            }
+            
+            i++;
+        }
+        
+        return result;
+    }
+}
+
+
+1st > 37%
+
+using System;
+// you can also use other imports, for example:
+// using System.Collections.Generic;
+
+// you can write to stdout for debugging purposes, e.g.
+// Console.WriteLine("this is a debug message");
+
+class Solution {
+    public int solution(int[] A, int[] B) {
+        int Z = A.Length;
+        int result = 0;
+        
+        for(int k = 0; k < Z; k++)
+        {
+            int N = A[k];
+            int M = B[k];
+            
+            int NPrimeSum = 0;
+            int MPrimeSum = 0;
+            
+            //Console.WriteLine("K" + k);
+            
+            int i = 2;
+            while(i <= N)
+            {
+                if(N % i == 0)
+                {
+                    if(IsPrime(i))
+                    {
+                        //Console.WriteLine("N" + i);
+                        NPrimeSum += i;
+                    }
+                }
+                
+                i++;
+            }
+            
+            int j = 2;
+            while(j <= M)
+            {
+                if(M % j == 0)
+                {
+                    if(IsPrime(j))
+                    {
+                        //Console.WriteLine("M" + j);
+                        MPrimeSum += j;
+                    }
+                }
+                
+                j++;
+            }
+            
+            if(NPrimeSum == MPrimeSum)
+            {
+                result++;
+            }
+        }
+        
+        return result;
+    }
+    
+    public bool IsPrime(int num)
+    {
+        bool result = true;
+        
+        int i = 2;
+        while(i * i <= num)
+        {
+            if(num % i == 0)
+            {
+                result = false;
+                break;
+            }
+            
+            i++;
+        }
+        
+        return result;
+    }
+}

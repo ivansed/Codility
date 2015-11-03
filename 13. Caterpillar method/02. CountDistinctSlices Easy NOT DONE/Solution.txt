@@ -1,0 +1,46 @@
+1st > 60%, solution is correct but is timing out, detected complexity is O(N * (N + M)) instead of O(N)
+
+using System;
+// you can also use other imports, for example:
+// using System.Collections.Generic;
+
+// you can write to stdout for debugging purposes, e.g.
+// Console.WriteLine("this is a debug message");
+
+class Solution {
+    public int solution(int M, int[] A) {
+        int N = A.Length;
+        int distinct = 0;
+        int end = 0;
+        
+        for(int start = 0; start < N; start++)
+        {
+            end = start;
+            int[] m = new int[M+1];
+            
+            while(end < N && end - start <= M)
+            {
+                if(m[A[end]] == 0)
+                {
+                    //Console.WriteLine(start);
+                    //Console.WriteLine(end);
+                    
+                    m[A[end]] = 1;
+                    end++;
+                    
+                    distinct++;
+                    if(distinct == 1000000000)
+                    {
+                        return distinct;
+                    }
+                }
+                else
+                {
+                    break;
+                }
+            }
+        }
+        
+        return distinct;
+    }
+}

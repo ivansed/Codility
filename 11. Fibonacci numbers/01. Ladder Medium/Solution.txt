@@ -1,0 +1,70 @@
+2nd > 100%, Fibonacci numers had to be modulo max B
+
+using System;
+using System.Linq;
+// you can also use other imports, for example:
+// using System.Collections.Generic;
+
+// you can write to stdout for debugging purposes, e.g.
+// Console.WriteLine("this is a debug message");
+
+class Solution {
+    public int[] solution(int[] A, int[] B) {
+        int L = A.Length;
+        int[] waysOfClimbing = new int[L];
+        int[] fib = new int[L+2];
+        int maxB = (from x in B select x).Max();
+        
+        //calculate Fibonacci numbers to L
+        fib[1] = 1;
+        for(int i = 2; i < L + 2; i++)
+        {
+            fib[i] = (int)((fib[i-1] + fib[i-2]) % Math.Pow(2, maxB)); //max B but why?
+            //Console.WriteLine(i + ":" + fib[i]);
+        }
+        
+        //calculate result per given formula
+        for(int i = 0; i < L; i++)
+        {
+            long P = fib[A[i]+1];
+            waysOfClimbing[i] = (int)(P % Math.Pow(2, B[i]));
+        }
+        
+        return waysOfClimbing;
+    }
+}
+
+
+1st > 37%, think I have the overflow issue somewhere
+
+using System;
+// you can also use other imports, for example:
+// using System.Collections.Generic;
+
+// you can write to stdout for debugging purposes, e.g.
+// Console.WriteLine("this is a debug message");
+
+class Solution {
+    public int[] solution(int[] A, int[] B) {
+        int L = A.Length;
+        int[] waysOfClimbing = new int[L];
+        long[] fib = new long[L+2];
+        
+        //calculate Fibonacci numbers to L
+        fib[1] = 1;
+        for(int i = 2; i < L + 2; i++)
+        {
+            fib[i] = fib[i-1] + fib[i-2];
+            //Console.WriteLine(i + ":" + fib[i]);
+        }
+        
+        //calculate result per given formula
+        for(int i = 0; i < L; i++)
+        {
+            long P = fib[A[i]+1];
+            waysOfClimbing[i] = (int)((P % Math.Pow(2, P)) % (long)(Math.Pow(2, B[i])));
+        }
+        
+        return waysOfClimbing;
+    }
+}

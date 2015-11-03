@@ -1,0 +1,72 @@
+1st > 8%, timeouts and errors, on input [1], got 2, expected 1, on input [], got -1, expected 1
+
+using System;
+// you can also use other imports, for example:
+// using System.Collections.Generic;
+
+// you can write to stdout for debugging purposes, e.g.
+// Console.WriteLine("this is a debug message");
+
+class Solution {
+    public int solution(int[] A) {
+        int position = 0;
+        int minJumps = 0;
+        int N = A.Length;
+        int[] F = new int[N+2];
+        
+        //0 1 2 3 4 5 6 7
+        //0,1,1,2,3,5,8,13 
+        
+        if(N > 0)
+        {
+            F[1] = 1;
+            for(int i = 2; i < N + 2; i++)
+            {
+                F[i] = F[i-1] + F[i-2];
+                
+                //Console.WriteLine(i + ":" + F[i]);
+                
+                if(F[i] == N + 1) //N + 1 is jump from bank -1 to bank N
+                {
+                    minJumps = 1;
+                    return minJumps;
+                }
+                else if(F[i] > N + 1) 
+                {
+                    break;
+                }
+            }
+            
+            for(int i = 0; i < N; i++)
+            {
+                if(A[i] == 1)
+                {
+                    if(Array.IndexOf(F, (i + 1) - position) >= 0)
+                    {
+                        position = i;
+                        minJumps++;
+                        
+                        //Console.WriteLine(position + ":" + minJumps);
+                        
+                        if(Array.IndexOf(F, (N + 1) - (i + 1)) >= 0)
+                        {
+                            position = N + 1;
+                            minJumps++;
+                            
+                            //Console.WriteLine(position + ":" + minJumps);
+                            
+                            return minJumps;
+                        }                        
+                    }
+                }
+            }
+        }
+        else
+        {
+            minJumps = 1;
+            return minJumps;
+        }
+        
+        return -1;
+    }
+}

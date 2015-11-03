@@ -1,0 +1,24 @@
+using System;
+using System.Linq;
+// you can also use other imports, for example:
+// using System.Collections.Generic;
+
+// you can write to stdout for debugging purposes, e.g.
+// Console.WriteLine("this is a debug message");
+
+class Solution {
+    public int solution(int[] A) {
+        int N = A.Length;
+        long[] B = new long[N];
+        int distinct = 0;
+        
+        for(int i = 0; i < N; i++)
+        {
+            B[i] = Math.Abs((long)A[i]);
+        }
+        
+        distinct = (from x in B select x).Distinct().Count();
+        
+        return distinct;
+    }
+}

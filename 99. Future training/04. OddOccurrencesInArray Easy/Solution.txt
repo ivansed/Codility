@@ -1,0 +1,52 @@
+1st > 100%
+
+using System;
+// you can also use other imports, for example:
+using System.Collections.Generic;
+
+// you can write to stdout for debugging purposes, e.g.
+// Console.WriteLine("this is a debug message");
+
+class Solution {
+    public int solution(int[] A) {
+        int N = A.Length;
+        int value = 0;
+        Stack<int> stack = new Stack<int>();
+        
+        Array.Sort(A);
+        
+        if(N == 1)
+        {
+            value = A[0];
+        }
+        else
+        {
+            for(int i = 0; i < N; i++)
+            {
+                if(stack.Count == 0)
+                {
+                    stack.Push(A[i]);
+                }
+                else
+                {
+                    if(stack.Peek() == A[i])
+                    {
+                        stack.Pop();
+                    }
+                    else
+                    {
+                        value = stack.Peek();
+                        break;
+                    }
+                }
+            }
+        }
+        
+        if(value == 0)
+        {
+            value = A[N-1];
+        }
+        
+        return value;
+    }
+}

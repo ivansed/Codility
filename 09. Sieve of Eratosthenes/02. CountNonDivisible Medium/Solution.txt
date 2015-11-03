@@ -1,0 +1,86 @@
+2nd > 100%, optimized solution by counting the element occurrences first and then doing log(n) loop where we remove divisors by count of elements for both numerator and denominator (if they are different)
+
+using System;
+// you can also use other imports, for example:
+// using System.Collections.Generic;
+
+// you can write to stdout for debugging purposes, e.g.
+// Console.WriteLine("this is a debug message");
+
+class Solution {
+    public int[] solution(int[] A) {
+        int N = A.Length;
+        int[] nonDivisorCount = new int[N];
+        int[] valuesCount = new int[N*2+1];
+        
+        for(int i = 0; i < N; i++)
+        {
+            valuesCount[A[i]]++;
+        }
+        
+        for(int i = 0; i < N; i++)
+        {
+            int element = A[i];
+            nonDivisorCount[i] = N;
+            
+            int j = 1;
+            while(j * j <= element)
+            {
+                if(element % j == 0)
+                {
+                    int divisor = element / j;
+                    nonDivisorCount[i] -= valuesCount[j];
+                    if(divisor != j)
+                    {
+                        nonDivisorCount[i] -= valuesCount[divisor];
+                    }
+                }
+                
+                j++;                
+            }
+        }
+        
+        return nonDivisorCount;
+    }
+}
+
+
+1st > 66%, solution is correct but is timing out, need to optimize from O(n * n) to O(n * log(n))
+
+using System;
+// you can also use other imports, for example:
+// using System.Collections.Generic;
+
+// you can write to stdout for debugging purposes, e.g.
+// Console.WriteLine("this is a debug message");
+
+class Solution {
+    public int[] solution(int[] A) {
+        int N = A.Length;
+        int[] nonDivisorCount = new int[N];
+        
+        for(int i = 0; i < N; i++)
+        {
+            int j = 0;
+            nonDivisorCount[i] = N;
+            
+            while(j < N)
+            {
+                int element = A[i];
+                int divisorCandidate = A[j];
+                
+                if(divisorCandidate <= element)
+                {
+                    if(element % divisorCandidate == 0)
+                    {
+                        nonDivisorCount[i]--;
+                    }
+                }
+                
+                j++;
+            }
+        }
+        
+        return nonDivisorCount;
+    }
+}

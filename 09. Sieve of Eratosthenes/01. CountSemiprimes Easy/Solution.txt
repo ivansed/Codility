@@ -1,0 +1,153 @@
+2nd > 100%, optimized the solution, calculate semiprimes count for range 2 to N and put count as prefix sum to be able to calculate ranges
+
+using System;
+using System.Collections.Generic;
+
+// you can write to stdout for debugging purposes, e.g.
+// Console.WriteLine("this is a debug message");
+
+class Solution {
+    public int[] solution(int N, int[] P, int[] Q) {
+        int M = P.Length;
+        int[] spCount = new int[M];
+        bool[] primes = new bool[N + 1];
+        int[] semiprimes = new int[N + 1];
+        
+        //prepare array
+        for(int i = 0; i < N + 1; i++)
+        {
+            if(i > 1)
+            {
+                primes[i] = true;
+            }
+        }
+        
+        //calculate primes from 2 to N
+        int j = 2;
+        while(j * j <= N)
+        {
+            if(primes[j])
+            {
+                int k = j * j;
+                while(k <= N)
+                {
+                    primes[k] = false;
+                    k += j;
+                }
+            }
+            j++;
+        }
+
+        //do a prefix sum of semiprimes count for range from 2 to N. We only need to go to Sqrt of value as semiprime = prime * prime
+        for(int i = 2; i < N + 1; i++)
+        {
+            int value = 0;
+            int e = 2;
+            while(e <= Math.Sqrt(i))
+            {
+                if(primes[e])
+                {
+                    if(i % e == 0)
+                    {
+                        int p = i / e;
+                        
+                        if(primes[p])
+                        {
+                            value = 1;
+                            break; //semiprime is always a product of two prime numbers so if we found a semiprime break the loop
+                        }
+                    }
+                }
+                e++;
+            }
+            semiprimes[i] = semiprimes[i-1] + value;
+        }
+        
+        for(int i = 0; i < M; i++)
+        {
+            spCount[i] = semiprimes[Q[i]] - semiprimes[P[i]-1];
+        }
+        
+        return spCount;
+    }
+}
+
+
+1st > 66%, solution is correct but is getting timeouts
+
+using System;
+using System.Collections.Generic;
+
+// you can write to stdout for debugging purposes, e.g.
+// Console.WriteLine("this is a debug message");
+
+class Solution {
+    public int[] solution(int N, int[] P, int[] Q) {
+        int M = P.Length;
+        int[] spCount = new int[M];
+        bool[] primes = new bool[N + 1];
+        
+        //calculate primes from 2 to N
+        for(int i = 0; i < N + 1; i++)
+        {
+            if(i > 1)
+            {
+                primes[i] = true;
+            }
+        }
+        
+        int j = 2;
+        while(j * j <= N)
+        {
+            if(primes[j])
+            {
+                int k = j * j;
+                while(k <= N)
+                {
+                    primes[k] = false;
+                    k += j;
+                }
+            }
+            j++;
+        }
+
+        /*
+        for(int i = 0; i < N + 1; i++)
+        {
+            Console.WriteLine(i.ToString() + ":" + primes[i].ToString());
+        }
+        */
+
+        //go through each value in a range and divide by prime, if result is prime we increase the count. We only go until Sqrt of value because semiprime = prime * prime
+        for(int i = 0; i < M; i++)
+        {
+            int l = P[i];
+            if (l < 2) { l = 2; }
+            while(l <= Q[i])
+            {
+                int e = 2;
+                while(e <= Math.Sqrt(l))
+                {
+                    if(primes[e])
+                    {
+                        if(l % e == 0)
+                        {
+                            //int p1 = e;
+                            int p2 = l / e;
+                            
+                            if(primes[p2])
+                            {
+                                spCount[i]++;
+                                //Console.WriteLine(l.ToString() + ":" + p1.ToString() + "*" + p2.ToString());
+                            }
+                        }
+                    }
+                    e++;
+                }
+                l++;
+            }
+        }
+        
+        return spCount;
+    }
+}
